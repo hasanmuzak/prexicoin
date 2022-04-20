@@ -1,0 +1,12 @@
+# base image
+FROM node:14.19.1
+
+RUN yarn cache clean --force
+
+COPY frontend/panels/app /prexicoin-app/panels/app/
+WORKDIR /prexicoin-app/panels/app/
+RUN yarn install
+
+EXPOSE 3335
+
+CMD [ "yarn", "dev"]
