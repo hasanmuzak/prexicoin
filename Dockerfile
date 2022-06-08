@@ -4,6 +4,7 @@ RUN apt-get update && apt-get install -y \
     gcc \
     locales \
     xvfb \
+    nginx-full \
     libfontconfig \
     wkhtmltopdf \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*

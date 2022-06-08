@@ -1,0 +1,39 @@
+version: "3.7"
+ 
+services:
+  database:
+    container_name: prexicoin_mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: "${DB_NAME_APP}"
+      MYSQL_ROOT_PASSWORD: "${DB_PASSWORD}"
+    ports:
+      - "3308:3306"
+    volumes: 
+      - vol_prexicoin_mysql:/var/lib/mysql
+      -  /etc/letsencrypt:/etc/letsencrypt/:cached # SSL Sertifikası
+      - ./build/www:/var/www/html/:cached # Paneller
+    networks:
+      - back  
+  app:
+    container_name: prexicoin_app
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '443:443' # For Backend
+      - '80:80' # For Backend
+    volumes:
+      - ./backend/src:/prexicoin-app/:cached
+    depends_on:
+      - database
+    networks:
+      - back
+  
+networks:
+  back:
+    driver: bridge
+
+volumes:
+  vol_prexicoin_mysql:
