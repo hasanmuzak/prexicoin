@@ -11,8 +11,6 @@ services:
       - "3308:3306"
     volumes: 
       - vol_prexicoin_mysql:/var/lib/mysql
-      -  /etc/letsencrypt:/etc/letsencrypt/:cached # SSL Sertifikası
-      - ./build/www:/var/www/html/:cached # Paneller
     networks:
       - back  
   app:
@@ -26,6 +24,8 @@ services:
       - '80:80' # For Backend
     volumes:
       - ./backend/src:/prexicoin-app/:cached
+      -  /etc/letsencrypt:/etc/letsencrypt/:cached # SSL Sertifikası
+      - ./build/www:/var/www/html/:cached # Paneller
     depends_on:
       - database
     networks:
